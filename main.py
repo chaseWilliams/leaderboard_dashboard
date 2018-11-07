@@ -1,6 +1,7 @@
 from oauth2client.service_account import ServiceAccountCredentials
 from googleapiclient.discovery import build
 from lib.analytics import get_leaderboard_data
+from lib.sheets import upload_data_to_sheets
 import httplib2
 import gspread
 import json
@@ -27,6 +28,7 @@ with open('view_ids.csv') as f:
             'website': website,
             'data': data
         })
-        
-print(json.dumps(website_data, sort_keys=True, indent=2))
 
+#print(json.dumps(website_data, sort_keys=True, indent=2))
+
+upload_data_to_sheets(sheets_manager, website_data, 'Web Leaderboard Dashboard')
