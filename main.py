@@ -15,6 +15,7 @@ MONTH = 1
 MONTHS_TO_RETURN = 12
 VIEW_IDS = 'view_ids.csv'
 CREDENTIALS = 'client_secret.json'
+SHEET_NAME = 'Web Leaderboard Dashboard'
 
 creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS, scope)
 http = creds.authorize(httplib2.Http())
@@ -41,4 +42,4 @@ with open(VIEW_IDS) as f:
 
 #print(json.dumps(website_data, sort_keys=True, indent=2))
 
-upload_data_to_sheets(sheets_manager, website_data, 'Web Leaderboard Dashboard')
+upload_data_to_sheets(sheets_manager, website_data, SHEET_NAME)
