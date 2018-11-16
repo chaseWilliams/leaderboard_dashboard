@@ -5,39 +5,43 @@ import string
 import time
 
 def upload_data_to_sheets(sh, website_data, sh_name):
+    # where to start creating the dashboard
+    row = 3
     ## TODO
-    # create header on row 2
+    # create header on row
     worksheet = sh.open(sh_name).get_worksheet(0)
     # create header
-    worksheet.update_cell(2, 1, 'Website')
-    worksheet.update_cell(2, 2, 'Metrics')
+    worksheet.update_cell(row, 1, 'Website')
+    worksheet.update_cell(row, 2, 'Metrics')
     for i, month in enumerate(website_data[0]['data']):
         month_name = datetime.date.fromisoformat(month['month']).strftime("%B")
-        worksheet.update_cell(2, i + 3, month_name)
-    row = 3
+        worksheet.update_cell(row, i + 3, month_name)
+    
     print('Uploading data to Google Sheets')
     for website in website_data:
         print(website['website'].strip())
-        worksheet.update_cell(row + 1, 1, website['website'].strip())
+        worksheet.update_cell(row + 2, 1, website['website'].strip())
         col = 3
-        worksheet.update_cell(row, 2, 'Monthly Users')
-        worksheet.update_cell(row + 1, 2, 'Monthly Pageviews')
-        worksheet.update_cell(row + 2, 2, 'Top Pages')
+        worksheet.update_cell(row + 1, 2, 'Monthly Users')
+        worksheet.update_cell(row + 2, 2, 'Monthly Pageviews')
+        worksheet.update_cell(row + 3, 2, 'Top Pages')
         
         for i, month in enumerate(website['data']):
-            worksheet.update_cell(row, col, month['users'])
+            worksheet.update_cell(row + 1, col, month['users'])
             # APPLY COLOR FORMATTING
             if i is not 0:
                 good_color = month['users'] > website['data'][i - 1]['users']
-                apply_color_formatting(worksheet, good_color, row, col)
-            worksheet.update_cell(row + 1, col, month['unique_pageviews'])
+                apply_color_formatting(worksheet, good_color, row + 1, col)
+
+            worksheet.update_cell(row + 2, col, month['unique_pageviews'])
             if i is not 0:
                 good_color = month['unique_pageviews'] > website['data'][i - 1]['unique_pageviews']
-                apply_color_formatting(worksheet, good_color, row + 1, col)
-            worksheet.update_cell(row + 2, col, '\n'.join(month['top_pages']))
+                apply_color_formatting(worksheet, good_color, row + 2, col)
+            worksheet.update_cell(row + 3, col, '\n'.join(month['top_pages']))
             col = col + 1
         row = row + 4
         time.sleep(100)
+    worksheet.update_cell(row, 1, 'Date Updated: ' + str(datetime.datetime.today()))
 
 def apply_color_formatting(worksheet, good_color, row, col):
     color = Color(56 / 255, 118 / 255, 29 / 255)

@@ -21,6 +21,8 @@ Be sure to edit using a program like Notepad or Visual Studio Code, NOT Microsof
 
 Finally, we need to set some parameters within the source code. Open up main.py. Go ahead and change `YEAR`, `MONTH`, and `MONTHS_TO_RETURN` as necessary, where `YEAR` is, obviously, the year you want to start in, `MONTH` is the starting month (jan = 1, feb = 2, etc.), and `MONTHS_TO_RETURN` is how many months to go forward. Note that going into the future is safe, as the APIs will just return empty data, as reflected in the leaderboard dashboard. However, the code is only tested to work with 12 months. Going past 20 months of data at once may result in exceeding the project’s quota. 
 
+`SHEET_NAME` will point towards the Google Sheets you want it to edit. By default I just have it altering the first sheet in the Sheets, but you can change that in the code if you wish. Additionally, the `SHEET_NAME` must match **exactly** with the name of your already-created Google Sheets. 
+
 ## Running and Troubleshooting
 To run it, just type `python3 main.py` in the console. 
 

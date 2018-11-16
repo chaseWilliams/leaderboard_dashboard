@@ -33,8 +33,8 @@ def get_leaderboard_data(analytics, view_id, year, month, months):
           }]
         }
     ).execute()
-    row['users'] = response['reports'][0]['data']['totals'][0]['values'][0]
-    row['unique_pageviews'] = response['reports'][0]['data']['totals'][0]['values'][1]
+    row['users'] = int(response['reports'][0]['data']['totals'][0]['values'][0])
+    row['unique_pageviews'] = int(response['reports'][0]['data']['totals'][0]['values'][1])
     response = analytics.reports().batchGet(
         body={
           'reportRequests': [{
